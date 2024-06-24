@@ -21,7 +21,6 @@ This repository hosts a Next.js-based blog website with content management capab
 
 ## Deployed Website
 
-The website is deployed and accessible at [https://gauravblog.vercel.app/](https://gauravblog.vercel.app/).
 
 ## Screenshots
 
