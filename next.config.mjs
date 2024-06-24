@@ -31,4 +31,18 @@ const nextConfig = {
   },
 };
 
+const isVercel = process.env.VERCEL === '1';
+
+module.exports = {
+  webpack: (config, { isServer }) => {
+    if (isServer && isVercel) {
+      config.externals.push({
+        sharp: 'commonjs sharp'
+      });
+    }
+    return config;
+  }
+};
+
+
 export default withPlaiceholder(nextConfig);
