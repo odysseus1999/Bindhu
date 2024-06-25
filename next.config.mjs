@@ -1,5 +1,4 @@
 import withPlaiceholder from '@plaiceholder/next';
-import webpack from 'webpack';
 
 const isVercel = process.env.VERCEL === '1';
 
@@ -17,7 +16,7 @@ const nextConfig = {
       },
     ],
   },
-  webpack: (config, { buildId, dev, isServer, defaultLoaders }) => {
+  webpack: (config, { isServer, webpack }) => {
     config.plugins.push(
       new webpack.ContextReplacementPlugin(/\/keyv\//, (data) => {
         delete data.dependencies[0].critical;
@@ -29,6 +28,7 @@ const nextConfig = {
     config.resolve.alias.encoding = false;
 
     if (isServer && isVercel) {
+      config.externals = config.externals || [];
       config.externals.push({
         sharp: 'commonjs sharp',
       });
