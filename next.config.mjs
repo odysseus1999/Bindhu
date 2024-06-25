@@ -1,7 +1,4 @@
 import withPlaiceholder from '@plaiceholder/next';
-const webpack = require('webpack');
-
-const isVercel = process.env.VERCEL === '1';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -17,27 +14,19 @@ const nextConfig = {
       },
     ],
   },
-  // Merge webpack configurations into a single function
-  webpack: (config, { buildId, dev, isServer, defaultLoaders }) => {
-    // Apply ContextReplacementPlugin
+  // suppress keyv warning
+  webpack: (config, { webpack }) => {
     config.plugins.push(
       new webpack.ContextReplacementPlugin(/\/keyv\//, (data) => {
         delete data.dependencies[0].critical;
         return data;
       })
     );
-
-    // Alias settings
+    return config;
+  },
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.resolve.alias.canvas = false;
     config.resolve.alias.encoding = false;
-
-    // Conditionally externalize 'sharp' for Vercel deployments
-    if (isServer && isVercel) {
-      config.externals.push({
-        sharp: 'commonjs sharp'
-      });
-    }
-
     return config;
   },
 };
