@@ -1,4 +1,5 @@
 import withPlaiceholder from '@plaiceholder/next';
+import webpack from 'webpack';
 
 const isVercel = process.env.VERCEL === '1';
 
