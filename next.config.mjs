@@ -17,7 +17,7 @@ const nextConfig = {
       },
     ],
   },
-  webpack: (config, { isServer, webpack }) => {
+  webpack: (config, { isServer }) => {
     config.plugins.push(
       new webpack.ContextReplacementPlugin(/\/keyv\//, (data) => {
         delete data.dependencies[0].critical;
@@ -29,10 +29,8 @@ const nextConfig = {
     config.resolve.alias.encoding = false;
 
     if (isServer && isVercel) {
-      config.externals = config.externals || [];
-      config.externals.push({
-        sharp: 'commonjs sharp',
-      });
+      config.externals = config.externals || {};
+      config.externals['sharp'] = 'commonjs sharp';
     }
 
     return config;
